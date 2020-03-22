@@ -1,10 +1,12 @@
 from http import HTTPStatus
 from api.api.api import APICode
+from api.app import manager
 
 
 def get_token(userId):
+    token = manager.get_token(userId)
     return {
-               "token": "abc",
-               "code": APICode.OK,
-               "message": "User registered",
-           }, HTTPStatus.OK
+        "token": token,
+        "code": APICode.OK,
+        "message": "Token granted",
+    }, HTTPStatus.OK
