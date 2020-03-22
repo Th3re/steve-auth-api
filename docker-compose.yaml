@@ -1,0 +1,17 @@
+---
+version: '3'
+services:
+  steve-auth-api:
+    image: steve-auth-api:latest
+    container_name: steve-auth-api
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    env_file:
+      - .google_credentials
+    environment:
+      PORT: "8080"
+      REDIRECT_URI: "http://127.0.0.1:8080"
+      REQUEST_URL: "https://oauth2.googleapis.com/token"
+    ports:
+      - 8080:8080
