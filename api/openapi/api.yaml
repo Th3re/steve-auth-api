@@ -1,0 +1,70 @@
+---
+swagger: "2.0"
+
+info:
+  title: "{{title}}"
+  version: "1.0"
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /token/{userId}:
+    get:
+      operationId: api.api.token.get_token
+      summary: Get an authentication token for the user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+          description: Google user id
+      responses:
+        200:
+          description: Authentication token
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                description: Authentication token
+                example: "xyz"
+              code:
+                type: string
+                description: Server status code
+                example: "OK"
+              message:
+                type: string
+                description: Server response
+                example: "User registered"
+  /auth:
+    get:
+      operationId: api.api.auth.register_user
+      summary: Register a user
+      parameters:
+        - name: scope
+          in: query
+          required: true
+          type: string
+          description: Resources allowed to use
+        - name: code
+          in: query
+          required: true
+          type: string
+          description: Invitation code
+      responses:
+        200:
+          description: Registration status
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Server status code
+                example: "OK"
+              message:
+                type: string
+                description: Server response
+                example: "User registered"
