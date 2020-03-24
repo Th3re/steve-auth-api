@@ -14,10 +14,15 @@ class MongoStore(Store):
 
     def save(self, credentials: Credentials):
         document = {
-            self.USER_ID: credentials.user_id,
-            self.REFRESH_TOKEN: credentials.refresh_token,
+            '$set': {
+                self.USER_ID: credentials.user_id,
+                self.REFRESH_TOKEN: credentials.refresh_token,
+            }
         }
-        self.collection.insert_one(document)
+        query = {
+            self.USER_ID: credentials.user_id
+        }
+        self.collection.find_one_and_update(query, document, upsert=True)
 
     def get(self, user_id) -> Credentials:
         query = {
