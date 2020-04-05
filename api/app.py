@@ -25,7 +25,7 @@ mongo_client = pymongo.MongoClient(env.mongo.uri, username=env.mongo.user, passw
 
 access_cache = MemoryAccessCache()
 store = MongoStore(mongo_client, env.mongo.database, env.mongo.collection)
-manager = AccessManager(access_cache, store, issuer, env.cache)
+manager = AccessManager(access_cache, store, issuer)
 
 
 def main():

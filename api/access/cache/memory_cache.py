@@ -1,4 +1,9 @@
+import time
+import logging
+
 from api.access.cache.cache import AccessCache
+
+LOG = logging.getLogger(__name__)
 
 
 class MemoryAccessCache(AccessCache):
@@ -6,7 +11,16 @@ class MemoryAccessCache(AccessCache):
         self.cache = {}
 
     def set(self, key, value, ttl):
-        self.cache[key] = value
+        expiration_date = time.time() + ttl
+        self.cache[key] = value, expiration_date
 
     def get(self, key):
-        return self.cache.get(key)
+        value, expiration_date = self.cache.get(key, (None, None))
+        if value:
+            if expiration_date - time.time() < 0:
+                LOG.debug(f'Value \"{value}\" for \"{key}\" key has expired, deleting it')
+                del self.cache[key]
+                return
+            else:
+                LOG.debug(f'Using cached value \"{value}\" for key \"{key}\"')
+        return value

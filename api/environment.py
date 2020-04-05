@@ -36,28 +36,16 @@ class Mongo:
         return f'URI: {self.uri} USER: {self.user} PASSWORD: {self.password}'
 
 
-class Cache:
-    CACHE_TTL = 'CACHE_TTL'
-
-    def __init__(self, ttl):
-        self.ttl = ttl
-
-    def __repr__(self):
-        return f'TTL: {self.ttl}'
-
-
 class Environment:
     PORT = "PORT"
 
-    def __init__(self, port, google_credentials: Google, mongo: Mongo, cache: Cache):
+    def __init__(self, port, google_credentials: Google, mongo: Mongo):
         self.port = port
         self.google_credentials = google_credentials
         self.mongo = mongo
-        self.cache = cache
 
     def __repr__(self):
-        return f'PORT: {self.port} GOOGLE_CREDENTIALS: [{self.google_credentials}] MONGO: [{self.mongo}] ' \
-               f'CACHE: [{self.cache}]'
+        return f'PORT: {self.port} GOOGLE_CREDENTIALS: [{self.google_credentials}] MONGO: [{self.mongo}]'
 
 
 def read_environment() -> Environment:
@@ -70,5 +58,4 @@ def read_environment() -> Environment:
                                    user=os.environ[Mongo.MONGO_USER],
                                    password=os.environ[Mongo.MONGO_PASSWORD],
                                    database=os.environ[Mongo.MONGO_DATABASE],
-                                   collection=os.environ[Mongo.MONGO_COLLECTION]),
-                       cache=Cache(ttl=os.environ[Cache.CACHE_TTL]))
+                                   collection=os.environ[Mongo.MONGO_COLLECTION]))
