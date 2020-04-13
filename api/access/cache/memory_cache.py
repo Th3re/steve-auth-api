@@ -17,7 +17,7 @@ class MemoryAccessCache(AccessCache):
     def get(self, key):
         value, expiration_date = self.cache.get(key, (None, None))
         if value:
-            if expiration_date - time.time() < 0:
+            if expiration_date - time.time() <= 0:
                 LOG.debug(f'Value \"{value}\" for \"{key}\" key has expired, deleting it')
                 del self.cache[key]
                 return
