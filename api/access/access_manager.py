@@ -27,6 +27,6 @@ class AccessManager(Manager):
         credentials = self.store.get(user_id)
         refresh_token = credentials.refresh_token
         token = self.issuer.refresh_token(refresh_token)
-        ttl = access_token.expiration_date.timestamp() - time.time()
-        self.access_cache.set(user_id, access_token.value, max(ttl, 0))
+        ttl = token.expiration_date.timestamp() - time.time()
+        self.access_cache.set(user_id, token.value, max(ttl, 0))
         return token.value
