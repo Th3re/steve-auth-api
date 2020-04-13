@@ -1,7 +1,9 @@
 import jwt
 import logging
+import datetime
 import requests
 
+from api.model.token import Token
 from api.model.credentials import Credentials
 from api.credentials.issuer import PermissionIssuer
 
@@ -32,7 +34,7 @@ class GoogleIssuer(PermissionIssuer):
         decoded_token = jwt.decode(id_token, verify=False, algorithms=['RS256'])
         return decoded_token['sub']
 
-    def refresh_token(self, refresh_token) -> str:
+    def refresh_token(self, refresh_token) -> Token:
         response = requests.post(url=self.request_url,
                                  data=dict(grant_type='refresh_token',
                                            refresh_token=refresh_token,
@@ -42,4 +44,5 @@ class GoogleIssuer(PermissionIssuer):
         data = response.json()
         LOG.debug(f'Authentication response: {data}')
         token = data['access_token']
-        return token
+        expiration_date = datetime.datetime.now() + datetime.timedelta(seconds=float(data['expires_in']))
+        return Token(token, expiration_date)
