@@ -13,7 +13,7 @@ jobs:
         password: ${{ secrets.DOCKER_SECRET }}
     - name: Upload docker image
       run: |
-        IMAGE=th3re/steve-calendar-api
+        IMAGE=th3re/steve-auth-api
         TAG=$GITHUB_SHA-$GITHUB_RUN_ID
         docker build -t $IMAGE:$TAG .
         docker push $IMAGE:$TAG
