@@ -5,7 +5,7 @@ import pymongo
 from api.access.access_manager import AccessManager
 from api.access.cache.memory_cache import MemoryAccessCache
 from api.db.mongo import MongoStore
-from api.environment import read_environment
+from api.environment import Environment
 from swagger_ui_bundle import swagger_ui_3_path
 from api.credentials.google_issuer import GoogleIssuer
 
@@ -16,10 +16,10 @@ API_SPEC = "api.yaml"
 
 log = logging.getLogger(__name__)
 
-env = read_environment()
+env = Environment.read()
 log.debug(f'ENV -- {env}')
 
-issuer = GoogleIssuer(env.google_credentials)
+issuer = GoogleIssuer(env.google)
 
 mongo_client = pymongo.MongoClient(env.mongo.uri, username=env.mongo.user, password=env.mongo.password)
 
@@ -37,4 +37,4 @@ def main():
         API_SPEC,
         arguments={"title": "Location API"}
     )
-    app.run(port=env.port)
+    app.run(port=env.server.port)
