@@ -29,4 +29,4 @@ class MongoStore(Store):
             self.USER_ID: user_id
         }
         document = self.collection.find_one(query)
-        return Credentials(user_id=user_id, refresh_token=document[self.REFRESH_TOKEN])
+        return Credentials(user_id=user_id, refresh_token=document[self.REFRESH_TOKEN]) if document else None

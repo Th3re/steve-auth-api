@@ -2,8 +2,8 @@ import logging
 
 from api.app import issuer
 from http import HTTPStatus
-from api.api.api import APICode
 from api.app import manager
+from api.api.api import APICode
 
 LOG = logging.getLogger(__name__)
 
