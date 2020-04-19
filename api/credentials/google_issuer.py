@@ -1,4 +1,5 @@
 import jwt
+import typing
 import logging
 import datetime
 import requests
@@ -17,7 +18,7 @@ class GoogleIssuer(PermissionIssuer):
         self.client_secret = google_configuration.client_secret
         self.client_id = google_configuration.client_id
 
-    def get_credentials(self, code: str) -> Credentials:
+    def get_credentials(self, code: str) -> typing.Optional[Credentials]:
         response = requests.post(url=self.request_url,
                                  data=dict(grant_type='authorization_code',
                                            redirect_uri=self.redirect_uri,
@@ -26,8 +27,12 @@ class GoogleIssuer(PermissionIssuer):
                                            client_secret=self.client_secret))
         data = response.json()
         LOG.debug(f'Authentication response: {data}')
-        subject = self.__get_subject(data['id_token'])
-        return Credentials(refresh_token=data['refresh_token'], user_id=subject)
+        id_token = data.get('id_token')
+        refresh_token = data.get('refresh_token')
+        if id_token and refresh_token:
+            subject = self.__get_subject(id_token)
+            refresh_token = data.get('refresh_token')
+            return Credentials(refresh_token=refresh_token, user_id=subject)
 
     @staticmethod
     def __get_subject(id_token):
