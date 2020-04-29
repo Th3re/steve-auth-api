@@ -1,12 +1,12 @@
 import logging
-import connexion
 import pymongo
+import connexion
 
-from api.access.access_manager import AccessManager
-from api.access.cache.memory_cache import MemoryAccessCache
 from api.db.mongo import MongoStore
 from api.environment import Environment
 from swagger_ui_bundle import swagger_ui_3_path
+from api.access.access_manager import AccessManager
+from api.libs.cache.memory import MemoryAccessCache
 from api.credentials.google_issuer import GoogleIssuer
 
 logging.basicConfig(level=logging.DEBUG)

@@ -2,9 +2,9 @@ import time
 import logging
 
 from api.db.store import Store
+from api.libs.cache.cache import Cache
 from api.access.manager import Manager
 from api.model.credentials import Credentials
-from api.access.cache.cache import AccessCache
 from api.credentials.issuer import PermissionIssuer
 
 
@@ -12,7 +12,7 @@ LOG = logging.getLogger(__name__)
 
 
 class AccessManager(Manager):
-    def __init__(self, access_cache: AccessCache, store: Store, issuer: PermissionIssuer):
+    def __init__(self, access_cache: Cache, store: Store, issuer: PermissionIssuer):
         self.access_cache = access_cache
         self.store = store
         self.issuer = issuer
