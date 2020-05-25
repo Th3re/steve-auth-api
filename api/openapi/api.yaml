@@ -11,6 +11,28 @@ produces:
   - application/json
 
 paths:
+  /contacts/{userId}:
+    get:
+      operationId: api.api.contacts.get
+      summary: Get user's contacts
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+          description: Google user id
+      responses:
+        200:
+          description: User's contacts
+          schema:
+            type: object
+            properties:
+              contacts:
+                type: array
+                items:
+                  type: string
+                description: User's contacts
+                example: ["contact1", "contact2"]
   /token/{userId}:
     get:
       operationId: api.api.token.get_token

@@ -18,13 +18,13 @@ class AccessManager(Manager):
         self.issuer = issuer
 
     def save_identity(self, credentials: Credentials):
-        self.store.save(credentials)
+        self.store.save_credentials(credentials)
 
     def get_token(self, user_id):
         access_token = self.access_cache.get(user_id)
         if access_token:
             return access_token
-        credentials = self.store.get(user_id)
+        credentials = self.store.get_credentials(user_id)
         if not credentials:
             return
         refresh_token = credentials.refresh_token
