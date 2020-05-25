@@ -30,15 +30,11 @@ class MongoStore(Store):
         query = {
             self.USER_ID: user_id
         }
-<<<<<<< HEAD
-        document = self.collection.find_one(query)
-        return Credentials(user_id=user_id, refresh_token=document[self.REFRESH_TOKEN]) if document else None
-=======
         return self.collection.find_one(query)
 
     def get_credentials(self, user_id) -> Credentials:
         document = self._get_user(user_id)
-        return Credentials(user_id=user_id, refresh_token=document[self.REFRESH_TOKEN])
+        return Credentials(user_id=user_id, refresh_token=document[self.REFRESH_TOKEN]) if document else None
 
     def save_contacts(self, user_id: str, contacts: List[str]):
         document = {
@@ -53,8 +49,7 @@ class MongoStore(Store):
 
     def get_contacts(self, user_id: str) -> List[str]:
         document = self._get_user(user_id)
-        user_contacts = set(document[self.CONTACTS])
+        user_contacts = set(document[self.CONTACTS]) if document else None
         all_contacts = self.collection.find()
         contacts = set(map(lambda x: x[self.USER_ID], all_contacts))
         return list(contacts.intersection(user_contacts))
->>>>>>> Save user contacts
