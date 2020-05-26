@@ -13,11 +13,14 @@ class GoogleIssuer(ContactsIssuer):
     def __init__(self, api_client: Client):
         self.api_client = api_client
 
+    @staticmethod
+    def connections_ids(response):
+        sources = map(lambda c: c['metadata']['sources'], response['connections'])
+        return [list(filter(lambda s: s['type'] == "PROFILE", source))[0]['id'] for source in sources]
+
     def fetch(self, user_id: str, token: str) -> List[str]:
-        # https://content-people.googleapis.com/v1/people/me/connections?pageSize=10&personFields=
         params = dict(
             personFields=self.PERSON_FIELDS
         )
-        connections = self.api_client.get("/v1/people/me/connections", token, params)
-        LOG.info(f'USER {user_id} CONNECTIONS {connections}')
-        return ["1", "2", "3"]
+        response = self.api_client.get("/v1/people/me/connections", token, params)
+        return self.connections_ids(response)
