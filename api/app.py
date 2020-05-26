@@ -10,6 +10,7 @@ from api.environment import Environment
 from swagger_ui_bundle import swagger_ui_3_path
 from api.credentials.google_issuer import GoogleIssuer as GoogleCredentialsIssuer
 from api.contacts.google_issuer import GoogleIssuer as GoogleContactsIssuer
+from api.libs.google.google_client import GoogleClient
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -21,8 +22,10 @@ log = logging.getLogger(__name__)
 env = Environment.read()
 log.debug(f'ENV -- {env}')
 
+google_client = GoogleClient(env.google.host)
+
 token_issuer = GoogleCredentialsIssuer(env.google)
-contacts_issuer = GoogleContactsIssuer()
+contacts_issuer = GoogleContactsIssuer(google_client)
 
 mongo_client = pymongo.MongoClient(env.mongo.uri, username=env.mongo.user, password=env.mongo.password)
 
