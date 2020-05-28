@@ -15,8 +15,9 @@ class GoogleIssuer(ContactsIssuer):
 
     @staticmethod
     def connections_ids(response):
-        LOG.debug(f'Connections {response["connections"]}')
-        sources = list(map(lambda c: c["metadata"]["sources"], response["connections"]))
+        connections = response.get("connections", [])
+        LOG.debug(f'Connections {connections}')
+        sources = list(map(lambda c: c["metadata"]["sources"], connections))
         elements = [item for sublist in sources for item in sublist]
         profiles = list(filter(lambda s: s["type"] == "PROFILE", elements))
         return list(map(lambda profile: profile["id"], profiles))
