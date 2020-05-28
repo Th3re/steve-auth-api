@@ -15,12 +15,13 @@ class GoogleIssuer(ContactsIssuer):
 
     @staticmethod
     def connections_ids(response):
-        sources = map(lambda c: c['metadata']['sources'], response['connections'])
-        return [list(filter(lambda s: s['type'] == "PROFILE", source))[0]['id'] for source in sources]
+        LOG.debug(f'Connections {response["connections"]}')
+        sources = list(map(lambda c: c["metadata"]["sources"], response["connections"]))
+        elements = [item for sublist in sources for item in sublist]
+        profiles = list(filter(lambda s: s["type"] == "PROFILE", elements))
+        return list(map(lambda profile: profile["id"], profiles))
 
     def fetch(self, user_id: str, token: str) -> List[str]:
-        params = dict(
-            personFields=self.PERSON_FIELDS
-        )
+        params = dict(personFields=self.PERSON_FIELDS)
         response = self.api_client.get("/v1/people/me/connections", token, params)
         return self.connections_ids(response)
