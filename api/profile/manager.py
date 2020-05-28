@@ -1,6 +1,6 @@
 import abc
-
 from typing import Optional
+
 from api.profile.issuer import Profile
 
 

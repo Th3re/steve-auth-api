@@ -30,9 +30,14 @@ paths:
               contacts:
                 type: array
                 items:
-                  type: string
+                  type: object
+                  properties:
+                    user_id:
+                      type: string
+                    email:
+                      type: string
                 description: User's contacts
-                example: ["contact1", "contact2"]
+                example: [{"email": "john.doe@gmail.com", "user_id": "8251491095719389321"}]
   /token/{userId}:
     get:
       operationId: api.api.token.get_token

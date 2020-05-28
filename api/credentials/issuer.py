@@ -1,8 +1,8 @@
 import abc
 import typing
 
-from api.model.token import Token
 from api.model.credentials import Credentials
+from api.model.token import Token
 
 
 class PermissionIssuer(abc.ABC):

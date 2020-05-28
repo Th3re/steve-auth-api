@@ -1,6 +1,7 @@
 import abc
-
 from typing import List
+
+from api.profile.issuer import Profile
 
 
 class Manager(abc.ABC):
@@ -9,5 +10,5 @@ class Manager(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_contacts(self, user_id: str) -> List[str]:
+    def get_contacts(self, user_id: str) -> List[Profile]:
         pass

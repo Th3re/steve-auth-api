@@ -1,10 +1,9 @@
 import logging
-
-from api.app import token_issuer, profile_manager
 from http import HTTPStatus
 
 from api.api.api import APICode
 from api.app import access_manager, contacts_manager
+from api.app import token_issuer, profile_manager
 
 LOG = logging.getLogger(__name__)
 

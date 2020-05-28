@@ -1,9 +1,9 @@
+from typing import List
+
 import pymongo
 
 from api.db.store import Store
 from api.model.credentials import Credentials
-from typing import List
-
 from api.profile.issuer import Profile
 
 
@@ -50,12 +50,12 @@ class MongoStore(Store):
         }
         self.collection.find_one_and_update(query, document, upsert=True)
 
-    def get_contacts(self, user_id: str) -> List[str]:
+    def get_contacts(self, user_id: str) -> List[Profile]:
         document = self._get_user(user_id)
         user_contacts = set(document[self.CONTACTS]) if document else None
         all_contacts = self.collection.find()
         contacts = set(map(lambda x: x[self.USER_ID], all_contacts))
-        return list(contacts.intersection(user_contacts))
+        return list(map(self.get_profile, contacts.intersection(user_contacts)))
 
     def get_profile(self, user_id: str) -> Profile:
         document = self._get_user(user_id)

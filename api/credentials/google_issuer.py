@@ -1,12 +1,13 @@
-import jwt
-import typing
-import logging
 import datetime
+import logging
+import typing
+
+import jwt
 import requests
 
-from api.model.token import Token
-from api.model.credentials import Credentials
 from api.credentials.issuer import PermissionIssuer
+from api.model.credentials import Credentials
+from api.model.token import Token
 
 LOG = logging.getLogger(__name__)
 

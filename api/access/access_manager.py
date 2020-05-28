@@ -1,12 +1,11 @@
-import time
 import logging
+import time
 
+from api.access.manager import Manager
+from api.credentials.issuer import PermissionIssuer
 from api.db.store import Store
 from api.libs.cache.cache import Cache
-from api.access.manager import Manager
 from api.model.credentials import Credentials
-from api.credentials.issuer import PermissionIssuer
-
 
 LOG = logging.getLogger(__name__)
 

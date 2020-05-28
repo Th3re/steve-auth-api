@@ -1,6 +1,7 @@
-from api.app import access_manager
 from http import HTTPStatus
+
 from api.api.api import APICode
+from api.app import access_manager
 
 
 def get_token(userId):

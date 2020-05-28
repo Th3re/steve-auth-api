@@ -1,9 +1,7 @@
 import abc
-
-from api.model.credentials import Credentials
-
 from typing import List
 
+from api.model.credentials import Credentials
 from api.profile.issuer import Profile
 
 
@@ -29,5 +27,5 @@ class Store(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_contacts(self, user_id: str) -> List[str]:
+    def get_contacts(self, user_id: str) -> List[Profile]:
         pass

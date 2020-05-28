@@ -1,15 +1,16 @@
 import logging
-import pymongo
+
 import connexion
+import pymongo
+from swagger_ui_bundle import swagger_ui_3_path
 
 from api.access.access_manager import AccessManager
-from api.libs.cache.memory import MemoryAccessCache
 from api.contacts.contacts_manager import ContactsManager
+from api.contacts.google_issuer import GoogleIssuer as GoogleContactsIssuer
+from api.credentials.google_issuer import GoogleIssuer as GoogleCredentialsIssuer
 from api.db.mongo import MongoStore
 from api.environment import Environment
-from swagger_ui_bundle import swagger_ui_3_path
-from api.credentials.google_issuer import GoogleIssuer as GoogleCredentialsIssuer
-from api.contacts.google_issuer import GoogleIssuer as GoogleContactsIssuer
+from api.libs.cache.memory import MemoryAccessCache
 from api.libs.google.google_client import GoogleClient
 from api.profile.google_issuer import GoogleProfileIssuer
 from api.profile.profile_manager import ProfileManager

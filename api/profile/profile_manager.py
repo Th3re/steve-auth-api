@@ -1,7 +1,8 @@
 from typing import Optional
+
 from api.db.store import Store
-from api.profile.manager import Manager
 from api.profile.issuer import Profile, ProfileIssuer
+from api.profile.manager import Manager
 
 
 class ProfileManager(Manager):
