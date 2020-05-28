@@ -6,6 +6,7 @@ class Google(EnvironmentReader):
     def __init__(self):
         super()
         self.host = self.get('host')
+        self.contacts_host = self.get('contacts_host')
         self.client_id = self.get('client_id')
         self.client_secret = self.get('client_secret')
         self.redirect_uri = self.get('redirect_uri')

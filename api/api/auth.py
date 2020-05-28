@@ -1,6 +1,6 @@
 import logging
 
-from api.app import token_issuer
+from api.app import token_issuer, profile_manager
 from http import HTTPStatus
 
 from api.api.api import APICode
@@ -22,6 +22,7 @@ def register_user(scope, code):
     user_id = credentials.user_id
     token = access_manager.get_token(user_id)
     contacts_manager.save_contacts(user_id, token)
+    profile_manager.save_profile(user_id, token)
     return {
         "code": APICode.OK,
         "message": "User registered",
