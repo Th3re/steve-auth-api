@@ -4,6 +4,8 @@ from api.model.credentials import Credentials
 
 from typing import List
 
+from api.profile.issuer import Profile
+
 
 class Store(abc.ABC):
     @abc.abstractmethod
@@ -12,6 +14,14 @@ class Store(abc.ABC):
 
     @abc.abstractmethod
     def get_credentials(self, user_id: str) -> Credentials:
+        pass
+
+    @abc.abstractmethod
+    def save_profile(self, user_id: str, profile: Profile):
+        pass
+
+    @abc.abstractmethod
+    def get_profile(self, user_id: str) -> Profile:
         pass
 
     @abc.abstractmethod

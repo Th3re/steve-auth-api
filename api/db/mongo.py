@@ -4,10 +4,13 @@ from api.db.store import Store
 from api.model.credentials import Credentials
 from typing import List
 
+from api.profile.issuer import Profile
+
 
 class MongoStore(Store):
     USER_ID = 'userId'
     REFRESH_TOKEN = 'refreshToken'
+    EMAIL = 'email'
     CONTACTS = 'contacts'
 
     def __init__(self, client: pymongo.MongoClient, database, collection):
@@ -53,3 +56,18 @@ class MongoStore(Store):
         all_contacts = self.collection.find()
         contacts = set(map(lambda x: x[self.USER_ID], all_contacts))
         return list(contacts.intersection(user_contacts))
+
+    def get_profile(self, user_id: str) -> Profile:
+        document = self._get_user(user_id)
+        return Profile(user_id=user_id, email=document[self.EMAIL]) if document else None
+
+    def save_profile(self, user_id: str, profile: Profile):
+        document = {
+            '$set': {
+                self.EMAIL: profile.email
+            }
+        }
+        query = {
+            self.USER_ID: user_id
+        }
+        self.collection.find_one_and_update(query, document, upsert=True)
